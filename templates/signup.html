@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - AI Stress Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    <div class="container glass-panel" style="max-width: 450px; padding: 40px;">
+        <header>
+            <h2>Create Account 🚀</h2>
+            <p>Join to track your well-being easily.</p>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div style="background: rgba(255, 71, 87, 0.2); padding: 10px; border-radius: 8px; margin-bottom: 20px; color: #ff4757; text-align: center;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('signup') }}">
+            <div class="input-group">
+                <label>Choose a Username</label>
+                <input type="text" name="username" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label>Choose a Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit" class="glow-button" style="margin-top: 20px;">
+                <span>Sign Up</span>
+            </button>
+        </form>
+        <p style="text-align: center; margin-top: 20px; color: #dcdde1;">Already have an account? <a href="{{ url_for('login') }}" style="color: #1e90ff; font-weight: 600;">Login</a></p>
+    </div>
+</body>
+</html>

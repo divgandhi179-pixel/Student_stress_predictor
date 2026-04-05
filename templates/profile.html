@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Profile - AI Stress Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container glass-panel">
+        <header>
+            <h1>One-Time Profile Setup 👤</h1>
+            <p>Welcome, <b>{{ user.username }}</b>! Please enter your fixed academic and lifestyle details once. We will use this to calculate your daily stress later.</p>
+        </header>
+
+        <form method="POST" action="{{ url_for('profile') }}">
+            <!-- Demographics -->
+            <div class="form-section fade-in">
+                <h3>Personal Demographics</h3>
+                <div class="grid">
+                    <div class="input-group">
+                        <label>Gender</label>
+                        <select name="gender" required>
+                            <option value="Male" {% if user.gender == 'Male' %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if user.gender == 'Female' %}selected{% endif %}>Female</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Height (cm)</label>
+                        <input type="number" name="height" value="{{ user.height or 170 }}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Weight (kg)</label>
+                        <input type="number" name="weight" value="{{ user.weight or 65 }}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Financial Status</label>
+                        <select name="financial" required>
+                            <option value="Fabulous">Fabulous</option>
+                            <option value="good">Good</option>
+                            <option value="Bad">Bad</option>
+                            <option value="Awful">Awful</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Academics -->
+            <div class="form-section fade-in delay-1">
+                <h3>Academic Details</h3>
+                <div class="grid">
+                    <div class="input-group">
+                        <label>Department</label>
+                        <select name="dep" required>
+                            <option value="BCA">BCA</option>
+                            <option value="Commerce">Commerce</option>
+                            <option value="B.com Accounting and Finance ">B.com Accounting and Finance</option>
+                            <option value="B.com ISM">B.com ISM</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>10th Grade Mark (%)</label>
+                        <input type="number" name="mark10th" value="{{ user.mark10th or 85 }}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>12th Grade Mark (%)</label>
+                        <input type="number" name="mark12th" value="{{ user.mark12th or 80 }}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>College Mark (%)</label>
+                        <input type="number" name="collegemark" value="{{ user.collegemark or 75 }}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Done Certification Course?</label>
+                        <select name="certification" required>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                     <div class="input-group">
+                        <label>Do you like your degree?</label>
+                        <select name="likedegree" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                     <div class="input-group">
+                        <label>Salary Expectation (₹)</label>
+                        <input type="number" name="salexpect" value="{{ user.salexpect or 50000 }}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Willing to Work in this Field? (%)</label>
+                        <input type="number" name="career_willing" value="{{ user.career_willing or 80 }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lifestyle -->
+            <div class="form-section fade-in delay-2">
+                <h3>Constant Habits</h3>
+                <div class="grid">
+                     <div class="input-group">
+                        <label>Preferred Study Time</label>
+                        <select name="prefertime" required>
+                            <option value="Morning">Morning</option>
+                            <option value="Afternoon">Afternoon</option>
+                            <option value="Night">Night</option>
+                            <option value="Anytime">Anytime</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Hobbies</label>
+                        <select name="hobbies" required>
+                            <option value="Sports">Sports</option>
+                            <option value="Reading books">Reading books</option>
+                            <option value="Video Games">Video Games</option>
+                            <option value="Cinema">Cinema</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Typical Travel Time (mins)</label>
+                        <input type="number" name="travel" value="{{ user.travel or 30 }}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Part-time Job?</label>
+                        <select name="parttime" required>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="glow-button">
+                <span>Save Profile ✨</span>
+            </button>
+            <p style="text-align:center; margin-top:20px;">
+                <a href="{{ url_for('logout') }}" style="color:#ff6b81;text-decoration:none;font-weight:600;">Logout</a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Daily Check-in</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container glass-panel">
+        <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 30px;">
+            <div style="text-align: left;">
+                <h1 style="margin-bottom: 5px; font-size: 1.8rem;">Daily Check-in 📅</h1>
+                <p style="margin: 0; color: #dcdde1;">Hi, <b>{{ user.username }}</b>. Log your daily activity!</p>
+            </div>
+            <div>
+                <a href="{{ url_for('profile') }}" class="reset-button" style="text-decoration:none; margin-right:10px; display:inline-block; padding: 5px 15px; background: rgba(255,255,255,0.1); border-radius: 4px; color: white;">Edit Profile</a>
+                <a href="{{ url_for('logout') }}" style="color:#ff6b81; font-weight:bold; text-decoration:none;">Logout</a>
+            </div>
+        </header>
+
+        <form id="predictionForm" style="max-width: 500px; margin: 0 auto;">
+            <div class="form-section fade-in">
+                <h3 style="text-align:center; font-size: 1.5rem; margin-bottom: 30px;">How did today go?</h3>
+                
+                <div class="input-group" style="margin-bottom: 30px;">
+                    <label style="font-size: 1.1rem; margin-bottom: 15px; display:block;">⏱️ How much time did you spend actively studying today? (Minutes)</label>
+                    <input type="number" name="studytime" value="120" style="font-size: 1.2rem; padding: 15px;" required>
+                </div>
+
+                <div class="input-group" style="margin-bottom: 30px;">
+                    <label style="font-size: 1.1rem; margin-bottom: 15px; display:block;">📱 How much time did you spend on Social Media or Video games? (Minutes)</label>
+                    <input type="number" name="smtime" value="60" style="font-size: 1.2rem; padding: 15px;" required>
+                </div>
+            </div>
+
+            <button type="submit" class="glow-button" id="submitBtn">
+                <span>Analyze Today's Stress Level</span>
+                <div class="loader" id="loader"></div>
+            </button>
+        </form>
+
+        <!-- Result Section -->
+        <div id="resultSection" class="result-glass hidden" style="margin-top: 30px;">
+            <h2 id="stressTitle">Analyzing...</h2>
+            <div class="gauge-container">
+                 <div class="gauge-bar" id="gaugeBar"></div>
+            </div>
+            <p id="stressCategory"></p>
+            <div id="insightsBox" class="insights"></div>
+            <button class="reset-button" onclick="location.reload()" style="margin-top:20px;">Do another check-in</button>
+        </div>
+    </div>
+
+    <!-- The exact same JS logic from index.html -->
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const loader = document.getElementById('loader');
+            const form = document.getElementById('predictionForm');
+            const resultBox = document.getElementById('resultSection');
+            
+            btn.classList.add('loading');
+            
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Send to backend
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                form.style.display = 'none';
+                btn.style.display = 'none';
+                resultBox.classList.remove('hidden');
+                resultBox.classList.add('fade-in');
+                
+                if (result.status === 'success') {
+                    document.getElementById('stressTitle').innerText = 'Prediction Complete';
+                    let categoryNode = document.getElementById('stressCategory');
+                    categoryNode.innerHTML = `Predicted Stress Level: <strong class="badge ${result.prediction.toLowerCase()}">${result.prediction}</strong>`;
+                    
+                    let gauge = document.getElementById('gaugeBar');
+                    let levels = {'Awful': 100, 'Bad': 75, 'Good': 40, 'Fabulous': 10};
+                    let colors = {'Awful': '#ff4757', 'Bad': '#ffa502', 'Good': '#2ed573', 'Fabulous': '#1e90ff'};
+                    let val = levels[result.prediction] || 50;
+                    
+                    gauge.style.width = '0%';
+                    gauge.style.backgroundColor = colors[result.prediction] || '#ccc';
+                    setTimeout(() => {
+                        gauge.style.width = val + '%';
+                    }, 200);
+
+                    let insightsBox = document.getElementById('insightsBox');
+                    insightsBox.innerHTML = '<h3>Personal Insights:</h3>';
+                    result.insights.forEach(insight => {
+                        insightsBox.innerHTML += `<p>• ${insight}</p>`;
+                    });
+                     
+                } else {
+                    document.getElementById('stressTitle').innerText = 'Error';
+                    document.getElementById('stressCategory').innerText = result.message;
+                }
+            } catch (error) {
+                console.error(error);
+                alert("An error occurred getting the prediction. Did you enter valid numbers?");
+            }
+        });
+    </script>
+</body>
+</html>
