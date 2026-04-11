@@ -8,13 +8,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
+    <!-- Theme Switcher -->
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round"></div>
+        </label>
+        <span id="theme-icon">☀️</span>
     </div>
 
-    <div class="container glass-panel">
+    <div class="container">
         <header>
             <h1>One-Time Profile Setup 👤</h1>
             <p>Welcome, <b>{{ user.username }}</b>! Please enter your fixed academic and lifestyle details once. We will use this to calculate your daily stress later.</p>
@@ -142,9 +145,35 @@
                 <span>Save Profile ✨</span>
             </button>
             <p style="text-align:center; margin-top:20px;">
-                <a href="{{ url_for('logout') }}" style="color:#ff6b81;text-decoration:none;font-weight:600;">Logout</a>
+                <a href="{{ url_for('logout') }}" class="text-danger" style="text-decoration:none;font-weight:600;">Logout</a>
             </p>
         </form>
     </div>
+
+    <script>
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const themeIcon = document.getElementById('theme-icon');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.body.classList.add(currentTheme);
+            if (currentTheme === 'dark-theme') {
+                toggleSwitch.checked = true;
+                themeIcon.textContent = '🌙';
+            }
+        }
+
+        toggleSwitch.addEventListener('change', function(e) {
+            if (e.target.checked) {
+                document.body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
+                themeIcon.textContent = '🌙';
+            } else {
+                document.body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = '☀️';
+            }    
+        });
+    </script>
 </body>
 </html>

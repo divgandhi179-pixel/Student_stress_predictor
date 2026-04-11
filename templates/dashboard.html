@@ -8,21 +8,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
+    <!-- Theme Switcher -->
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round"></div>
+        </label>
+        <span id="theme-icon">☀️</span>
     </div>
 
-    <div class="container glass-panel">
-        <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 30px;">
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); padding-bottom: 20px; margin-bottom: 30px;">
             <div style="text-align: left;">
                 <h1 style="margin-bottom: 5px; font-size: 1.8rem;">Daily Check-in 📅</h1>
-                <p style="margin: 0; color: #dcdde1;">Hi, <b>{{ user.username }}</b>. Log your daily activity!</p>
+                <p style="margin: 0;">Hi, <b>{{ user.username }}</b>. Log your daily activity!</p>
             </div>
-            <div>
-                <a href="{{ url_for('profile') }}" class="reset-button" style="text-decoration:none; margin-right:10px; display:inline-block; padding: 5px 15px; background: rgba(255,255,255,0.1); border-radius: 4px; color: white;">Edit Profile</a>
-                <a href="{{ url_for('logout') }}" style="color:#ff6b81; font-weight:bold; text-decoration:none;">Logout</a>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <a href="{{ url_for('profile') }}" class="secondary-button">Edit Profile</a>
+                <a href="{{ url_for('logout') }}" class="secondary-button text-danger" style="font-weight: 600;">Logout</a>
             </div>
         </header>
 
@@ -31,13 +34,13 @@
                 <h3 style="text-align:center; font-size: 1.5rem; margin-bottom: 30px;">How did today go?</h3>
                 
                 <div class="input-group" style="margin-bottom: 30px;">
-                    <label style="font-size: 1.1rem; margin-bottom: 15px; display:block;">⏱️ How much time did you spend actively studying today? (Minutes)</label>
-                    <input type="number" name="studytime" value="120" style="font-size: 1.2rem; padding: 15px;" required>
+                    <label>⏱️ Active Study Time (Minutes)</label>
+                    <input type="number" name="studytime" value="120" required>
                 </div>
 
                 <div class="input-group" style="margin-bottom: 30px;">
-                    <label style="font-size: 1.1rem; margin-bottom: 15px; display:block;">📱 How much time did you spend on Social Media or Video games? (Minutes)</label>
-                    <input type="number" name="smtime" value="60" style="font-size: 1.2rem; padding: 15px;" required>
+                    <label>📱 Social Media / Gaming Time (Minutes)</label>
+                    <input type="number" name="smtime" value="60" required>
                 </div>
             </div>
 
@@ -49,18 +52,47 @@
 
         <!-- Result Section -->
         <div id="resultSection" class="result-glass hidden" style="margin-top: 30px;">
-            <h2 id="stressTitle">Analyzing...</h2>
+            <h2 id="stressTitle">Analytics Report Card</h2>
+            <div style="margin-bottom: 1.5rem">
+                <span id="stressCategory"></span>
+            </div>
+            
             <div class="gauge-container">
                  <div class="gauge-bar" id="gaugeBar"></div>
             </div>
-            <p id="stressCategory"></p>
+            
             <div id="insightsBox" class="insights"></div>
-            <button class="reset-button" onclick="location.reload()" style="margin-top:20px;">Do another check-in</button>
+            <button class="secondary-button" onclick="location.reload()" style="margin-top:10px; width:100%;">Log another day</button>
         </div>
     </div>
 
     <!-- The exact same JS logic from index.html -->
     <script>
+        // Theme Switcher Logic
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const themeIcon = document.getElementById('theme-icon');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.body.classList.add(currentTheme);
+            if (currentTheme === 'dark-theme') {
+                toggleSwitch.checked = true;
+                themeIcon.textContent = '🌙';
+            }
+        }
+
+        toggleSwitch.addEventListener('change', function(e) {
+            if (e.target.checked) {
+                document.body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
+                themeIcon.textContent = '🌙';
+            } else {
+                document.body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = '☀️';
+            }    
+        });
+
         document.getElementById('predictionForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -90,34 +122,35 @@
                 resultBox.classList.add('fade-in');
                 
                 if (result.status === 'success') {
-                    document.getElementById('stressTitle').innerText = 'Prediction Complete';
+                    document.getElementById('stressTitle').innerText = 'Analytics Report Card';
                     let categoryNode = document.getElementById('stressCategory');
-                    categoryNode.innerHTML = `Predicted Stress Level: <strong class="badge ${result.prediction.toLowerCase()}">${result.prediction}</strong>`;
+                    categoryNode.innerHTML = `Identified Stress Class: <span class="badge ${result.prediction.toLowerCase()}">${result.prediction}</span>`;
                     
                     let gauge = document.getElementById('gaugeBar');
                     let levels = {'Awful': 100, 'Bad': 75, 'Good': 40, 'Fabulous': 10};
-                    let colors = {'Awful': '#ff4757', 'Bad': '#ffa502', 'Good': '#2ed573', 'Fabulous': '#1e90ff'};
+                    let colors = {'Awful': '#ef4444', 'Bad': '#f59e0b', 'Good': '#10b981', 'Fabulous': '#3b82f6'};
                     let val = levels[result.prediction] || 50;
                     
                     gauge.style.width = '0%';
                     gauge.style.backgroundColor = colors[result.prediction] || '#ccc';
                     setTimeout(() => {
                         gauge.style.width = val + '%';
-                    }, 200);
+                    }, 300);
 
                     let insightsBox = document.getElementById('insightsBox');
                     insightsBox.innerHTML = '<h3>Personal Insights:</h3>';
                     result.insights.forEach(insight => {
-                        insightsBox.innerHTML += `<p>• ${insight}</p>`;
+                        insightsBox.innerHTML += `<p>${insight}</p>`;
                     });
                      
                 } else {
-                    document.getElementById('stressTitle').innerText = 'Error';
+                    document.getElementById('stressTitle').innerText = 'Error Generating Report';
                     document.getElementById('stressCategory').innerText = result.message;
                 }
             } catch (error) {
                 console.error(error);
                 alert("An error occurred getting the prediction. Did you enter valid numbers?");
+                btn.classList.remove('loading');
             }
         });
     </script>

@@ -7,7 +7,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Hugging Face Spaces require running on port 7860
-EXPOSE 7860
-
-CMD ["gunicorn", "-b", "0.0.0.0:7860", "app:app"]
+# Run gunicorn on the specified PORT environment variable (Render sets this dynamically, defaults to 10000)
+CMD sh -c "gunicorn -b 0.0.0.0:${PORT:-10000} app:app"
