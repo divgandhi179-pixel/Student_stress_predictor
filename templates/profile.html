@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Setup Profile - AI Stress Predictor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Theme Switcher -->
     <div class="theme-switch-wrapper">
         <label class="theme-switch" for="checkbox">
             <input type="checkbox" id="checkbox" />
@@ -17,9 +16,16 @@
         <span id="theme-icon">☀️</span>
     </div>
 
-    <div class="container">
+    <!-- Background Orbs -->
+    <div class="mesh-orb"></div>
+
+    <div class="container fade-in">
+        <!-- Navbar -->
+        {% include 'navbar.html' %}
+
         <header>
-            <h1>One-Time Profile Setup 👤</h1>
+            <div style="font-size: 3rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">⚙️</div>
+            <h1>One-Time Profile Setup</h1>
             <p>Welcome, <b>{{ user.username }}</b>! Please enter your fixed academic and lifestyle details once. We will use this to calculate your daily stress later.</p>
         </header>
 
@@ -109,6 +115,14 @@
             <div class="form-section fade-in delay-2">
                 <h3>Constant Habits</h3>
                 <div class="grid">
+                    <div class="input-group">
+                        <label>Base Study Time (Hours/Day)</label>
+                        <input type="number" step="0.5" name="studytime" value="{{ user.studytime or 3 }}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Social Media Time (Hours/Day)</label>
+                        <input type="number" step="0.5" name="smtime" value="{{ user.smtime or 2 }}" required>
+                    </div>
                      <div class="input-group">
                         <label>Preferred Study Time</label>
                         <select name="prefertime" required>

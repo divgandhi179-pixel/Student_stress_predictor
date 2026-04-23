@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Stress Report - AI Stress Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round"></div>
+        </label>
+        <span id="theme-icon">🌙</span>
+    </div>
+
+    <!-- Background Orbs -->
+    <div class="mesh-orb"></div>
+
+    <div class="container fade-in" style="max-width: 900px;">
+        <!-- Navbar -->
+        {% include 'navbar.html' %}
+
+        <header class="dashboard-header" style="text-align: center; margin-bottom: 2rem; display: block; border-bottom: none;">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">📈</div>
+            <h1 style="margin-bottom: 5px; font-size: 2.2rem;">Weekly Analytics</h1>
+            <p style="margin: 0; font-size: 1.1rem; color: var(--text-muted);">Your personalized stress trend & pattern detection.</p>
+        </header>
+
+        {% if not scores %}
+        <div class="form-section fade-in" style="text-align:center;">
+            <h3>Not enough data yet!</h3>
+            <p style="margin-bottom: 20px;">You need to log your daily habits to generate a weekly report.</p>
+            <a href="{{ url_for('seed') }}" class="glow-button" style="text-decoration:none;">🌱 Generate 7-Day Demo Data Now</a>
+        </div>
+        {% else %}
+        
+        <!-- Summary Cards -->
+        <div class="grid" style="margin-bottom: 2rem;">
+            <div class="form-section fade-in" style="margin-bottom: 0; text-align: center;">
+                <h4 style="color: var(--text-muted); font-size: 1rem;">Average Stress (7-Day)</h4>
+                <div style="font-size: 3rem; font-weight: 800; color: {% if avg_score > 70 %}#ef4444{% elif avg_score > 40 %}#f59e0b{% else %}#10b981{% endif %};">
+                    {{ avg_score }}
+                </div>
+            </div>
+            <div class="form-section fade-in" style="margin-bottom: 0; text-align: center;">
+                <h4 style="color: var(--text-muted); font-size: 1rem;">Days Tracked</h4>
+                <div style="font-size: 3rem; font-weight: 800; color: var(--primary);">
+                    {{ scores|length }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Graph Section -->
+        <div class="form-section fade-in delay-1" style="position: relative; height: 350px;">
+            <canvas id="stressChart"></canvas>
+        </div>
+
+        <!-- AI Insights Section -->
+        <div class="form-section fade-in delay-2">
+            <h3>AI Pattern Detection</h3>
+            <div class="insights" style="margin:0; background:transparent; border:none; padding:0; box-shadow:none;">
+                {% for insight in insights %}
+                    <p>{{ insight }}</p>
+                {% endfor %}
+                {% if not insights %}
+                    <p>Insufficient variance to detect specific patterns. Keep logging!</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div style="text-align:center; margin-top:2rem; display:flex; justify-content:center; gap:10px;">
+            <button onclick="exportToPDF()" class="glow-button" style="text-decoration:none; font-size:0.9rem; margin:0;">📥 Export to PDF</button>
+            <a href="{{ url_for('seed') }}" class="secondary-button" style="text-decoration:none; font-size:0.9rem; margin:0;">Regenerate Demo Data</a>
+        </div>
+        {% endif %}
+        
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        function exportToPDF() {
+            const element = document.querySelector('.container');
+            const opt = {
+                margin:       0.5,
+                filename:     'Weekly_Stress_Analytics.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const themeIcon = document.getElementById('theme-icon');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.body.classList.add(currentTheme);
+            if (currentTheme === 'dark-theme') {
+                toggleSwitch.checked = true;
+                themeIcon.textContent = '🌙';
+            }
+        }
+
+        toggleSwitch.addEventListener('change', function(e) {
+            if (e.target.checked) {
+                document.body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
+                themeIcon.textContent = '🌙';
+            } else {
+                document.body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = '☀️';
+            }
+            // Update chart colors
+            if (window.myChart) {
+                let color = e.target.checked ? '#94A3B8' : '#64748B';
+                window.myChart.options.scales.x.ticks.color = color;
+                window.myChart.options.scales.y.ticks.color = color;
+                window.myChart.update();
+            }
+        });
+
+        // Chart.js rendering
+        {% if scores %}
+        const ctx = document.getElementById('stressChart').getContext('2d');
+        const isDark = document.body.classList.contains('dark-theme');
+        const textColor = isDark ? '#94A3B8' : '#64748B';
+        
+        // Gradient for line
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(99, 102, 241, 0.5)');
+        gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
+
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ dates|tojson }},
+                datasets: [{
+                    label: 'Daily Stress Score',
+                    data: {{ scores|tojson }},
+                    borderColor: '#4F46E5',
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#4F46E5',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {
+                            color: 'rgba(200, 200, 200, 0.1)',
+                            drawBorder: false
+                        },
+                        ticks: { color: textColor }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: textColor }
+                    }
+                }
+            }
+        });
+        {% endif %}
+
+        const keyframes = `
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        `;
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = keyframes;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>

@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - AI Stress Predictor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Theme Switcher -->
     <div class="theme-switch-wrapper">
         <label class="theme-switch" for="checkbox">
             <input type="checkbox" id="checkbox" />
@@ -17,16 +16,20 @@
         <span id="theme-icon">☀️</span>
     </div>
 
-    <div class="container" style="max-width: 450px; padding: 40px;">
+    <!-- Background Orbs defined in CSS pseudo-elements -->
+    <div class="mesh-orb"></div>
+
+    <div class="container fade-in" style="max-width: 450px; padding: 3.5rem;">
         <header>
-            <h2>Welcome Back 👋</h2>
-            <p>Login to calculate your daily stress level.</p>
+            <div style="font-size: 3rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">🧠</div>
+            <h1>Welcome Back</h1>
+            <p>Ready for your daily check-in?</p>
         </header>
-        
+
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div style="background: rgba(255, 71, 87, 0.2); padding: 10px; border-radius: 8px; margin-bottom: 20px; color: #ff4757; text-align: center;">
+                    <div class="flash-message">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -34,31 +37,38 @@
         {% endwith %}
 
         <form method="POST" action="{{ url_for('login') }}">
-            <div class="input-group">
+            <div class="input-group" style="margin-bottom: 1.5rem;">
                 <label>Username</label>
-                <input type="text" name="username" required autocomplete="off">
+                <input type="text" name="username" placeholder="Enter your username" required autocomplete="off">
             </div>
-            <div class="input-group">
+            <div class="input-group" style="margin-bottom: 2rem;">
                 <label>Password</label>
-                <input type="password" name="password" required>
+                <input type="password" name="password" placeholder="Enter your password" required>
             </div>
-            <button type="submit" class="glow-button" style="margin-top: 20px;">
-                <span>Login</span>
+            <button type="submit" class="glow-button">
+                <span>Sign In To Portal</span>
             </button>
         </form>
-        <p style="text-align: center; margin-top: 20px; color: var(--text-muted);">Don't have an account? <a href="{{ url_for('signup') }}" style="color: var(--primary); font-weight: 600;">Sign Up</a></p>
+        <p style="text-align: center; margin-top: 2.5rem; color: var(--text-muted); font-size: 0.95rem;">
+            Don't have an account? <a href="{{ url_for('signup') }}">Create Account</a>
+        </p>
     </div>
 
     <script>
         const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
         const themeIcon = document.getElementById('theme-icon');
-        const currentTheme = localStorage.getItem('theme');
+        
+        // Auto Dark Mode for Demo
+        document.body.classList.add('dark-theme');
+        toggleSwitch.checked = true;
+        themeIcon.textContent = '🌙';
 
+        const currentTheme = localStorage.getItem('theme');
         if (currentTheme) {
-            document.body.classList.add(currentTheme);
-            if (currentTheme === 'dark-theme') {
-                toggleSwitch.checked = true;
-                themeIcon.textContent = '🌙';
+            if (currentTheme === 'light') {
+                document.body.classList.remove('dark-theme');
+                toggleSwitch.checked = false;
+                themeIcon.textContent = '☀️';
             }
         }
 
@@ -73,6 +83,17 @@
                 themeIcon.textContent = '☀️';
             }    
         });
+
+        // Floating animation for logo
+        const keyframes = `
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }`;
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = keyframes;
+        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>

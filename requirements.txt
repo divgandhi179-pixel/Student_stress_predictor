@@ -8,3 +8,6 @@ gunicorn
 Flask-SQLAlchemy
 Flask-Login
 psycopg2-binary
+Flask-CORS
+PyJWT
+xgboost
