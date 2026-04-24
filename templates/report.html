@@ -90,10 +90,10 @@
                         {% for log in logs %}
                         <tr style="border-bottom: 1px solid var(--border-solid); transition: background 0.3s; cursor: pointer;">
                             <td style="padding: 1rem; font-weight: 600;">{{ log.date.strftime('%a, %b %d') }}</td>
-                            <td style="padding: 1rem; color: var(--text-muted);">{{ log.sleep_hours }} h</td>
-                            <td style="padding: 1rem; color: var(--text-muted);">{{ log.study_hours }} h</td>
+                            <td style="padding: 1rem; color: var(--text-muted);">{{ "%.1f"|format(log.sleep_hours) }} h</td>
+                            <td style="padding: 1rem; color: var(--text-muted);">{{ "%.1f"|format(log.study_hours) }} h</td>
                             <td style="padding: 1rem; font-weight: 800; color: {% if log.stress_score > 70 %}#ef4444{% elif log.stress_score > 40 %}#f59e0b{% else %}#10b981{% endif %};">
-                                {{ log.stress_score }}
+                                {{ "%.1f"|format(log.stress_score) }}
                             </td>
                         </tr>
                         {% endfor %}
