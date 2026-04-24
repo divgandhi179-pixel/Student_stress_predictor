@@ -17,21 +17,21 @@
         <!-- Info Column -->
         <div>
             <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">
-                Initiate <br/>
-                <span style="color: var(--primary);">Secure Link.</span>
+                Get In Touch <br/>
+                <span style="color: var(--primary);">With Us.</span>
             </h1>
             <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 3rem; line-height: 1.6;">
-                Need architectural support or enterprise licensing? Our telemetry specialists are waiting for your transmission.
+                Have questions, feedback, or need help using the app? Our friendly support team loves helping students and is always ready to talk with you!
             </p>
             
-            <div style="display: flex; flex-direction: column; gap: 2rem;">
+            <div style="display: flex; flex-direction: column; gap: 2rem; margin-bottom: 3rem;">
                 <div style="display: flex; gap: 1rem; align-items: flex-start;">
                     <div style="background: rgba(79, 70, 229, 0.1); padding: 1rem; border-radius: 12px; color: var(--primary);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"/><path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"/></svg>
                     </div>
                     <div>
-                        <h4 style="margin: 0 0 0.25rem 0; font-size: 1.1rem;">Secure Mail Protocol</h4>
-                        <p style="margin: 0; color: var(--text-muted);">telemetry@neuromind.io</p>
+                        <h4 style="margin: 0 0 0.25rem 0; font-size: 1.1rem;">Email Address</h4>
+                        <p style="margin: 0; color: var(--text-muted);">hello@neuromind.io</p>
                     </div>
                 </div>
                 
@@ -40,30 +40,44 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                     </div>
                     <div>
-                        <h4 style="margin: 0 0 0.25rem 0; font-size: 1.1rem;">HQ Matrix</h4>
-                        <p style="margin: 0; color: var(--text-muted);">Silicon Valley Hub<br/>San Jose, CA</p>
+                        <h4 style="margin: 0 0 0.25rem 0; font-size: 1.1rem;">Our Office</h4>
+                        <p style="margin: 0; color: var(--text-muted);">Main Campus Hub<br/>San Jose, CA</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- New FAQ Section to make the page longer -->
+            <div style="background: var(--surface-color); border: 1px solid var(--border-color); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow-sm);">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--text-main);">Frequently Asked Questions</h3>
+                <div style="margin-bottom: 1rem;">
+                    <h4 style="color: var(--primary); font-size: 1.05rem; margin-bottom: 0.25rem;">Is my data safe?</h4>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Absolutely! We never share your health or study habits with anyone, not even your teachers.</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--primary); font-size: 1.05rem; margin-bottom: 0.25rem;">Is the app free?</h4>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Yes, the Student Stress Predictor is 100% free for all students to use every day!</p>
                 </div>
             </div>
         </div>
 
         <!-- Form Column -->
-        <div style="background: var(--surface-color); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 24px; box-shadow: var(--shadow-sm);">
-            <form onsubmit="event.preventDefault(); alert('Transmission queued successfully.');">
+        <div style="background: var(--surface-color); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 24px; box-shadow: var(--shadow-sm); position: sticky; top: 120px;">
+            <h3 style="font-size: 1.8rem; margin-bottom: 2rem; color: var(--text-main);">Send a Message</h3>
+            <form onsubmit="event.preventDefault(); alert('Message sent successfully! We will get back to you soon.');">
                 <div class="input-group" style="margin-bottom: 1.5rem;">
-                    <label>Identification</label>
+                    <label>Your Name</label>
                     <input type="text" placeholder="John Doe" required>
                 </div>
                 <div class="input-group" style="margin-bottom: 1.5rem;">
-                    <label>Transmission Vector (Email)</label>
-                    <input type="email" placeholder="john@company.com" required>
+                    <label>Your Email Address</label>
+                    <input type="email" placeholder="john@university.edu" required>
                 </div>
                 <div class="input-group" style="margin-bottom: 2rem;">
-                    <label>Data Payload</label>
-                    <textarea placeholder="Describe your technical requirements..." rows="4" style="width: 100%; padding: 0.8rem; background: var(--input-bg); border: 1px solid var(--border-solid); border-radius: 8px; color: var(--text-main); font-family: inherit; resize: vertical;" required></textarea>
+                    <label>What do you need help with?</label>
+                    <textarea placeholder="Type your message here..." rows="5" style="width: 100%; padding: 0.8rem; background: var(--input-bg); border: 1px solid var(--border-solid); border-radius: 8px; color: var(--text-main); font-family: inherit; resize: vertical;" required></textarea>
                 </div>
                 <button type="submit" class="glow-button" style="width: 100%;">
-                    <span>Transmit Data</span>
+                    <span>Send Message</span>
                 </button>
             </form>
         </div>

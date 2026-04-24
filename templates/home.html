@@ -58,33 +58,53 @@
     
     <div class="hero-section fade-in">
         <h1 class="hero-title">
-            Enterprise-Grade <br/>
-            <span style="color: var(--primary);">Cognitive Telemetry.</span>
+            Understand Your <br/>
+            <span style="color: var(--primary);">Daily Stress.</span>
         </h1>
         <p class="hero-subtitle">
-            Advanced predictive analytics processing granular behavioral logs to forecast and mitigate psychological stress mechanisms before clinical manifestation.
+            A simple, easy-to-use tool that tracks your daily habits like sleep, study time, and socializing to help you predict and lower your stress levels before exams.
         </p>
         <div style="display: flex; gap: 1rem; justify-content: center;">
-            <a href="{{ url_for('login') }}" class="glow-button" style="text-decoration: none; padding: 1rem 2rem;">Access Platform -></a>
-            <a href="{{ url_for('about') }}" class="secondary-button" style="text-decoration: none; padding: 1rem 2rem; font-weight: 600;">View Documentation</a>
+            <a href="{{ url_for('login') }}" class="glow-button" style="text-decoration: none; padding: 1rem 2rem;">Get Started Free -></a>
+            <a href="{{ url_for('about') }}" class="secondary-button" style="text-decoration: none; padding: 1rem 2rem; font-weight: 600;">Learn More About Us</a>
+        </div>
+    </div>
+
+    <!-- New How It Works Section to make page longer -->
+    <div style="max-width: 1000px; margin: 4rem auto; padding: 2rem; text-align: center;" class="fade-in">
+        <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 3rem; color: var(--text-main);">How It Actually Works</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; text-align: left; margin-bottom: 4rem;">
+            <div style="background: var(--surface-color); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--primary);">1. Log Your Daily Habits</h3>
+                <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">
+                    Every day, simply tell us how many hours you slept, how long you studied, and how active you were. It only takes a few seconds to fill out the form.
+                </p>
+            </div>
+            <div style="background: var(--surface-color); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--primary);">2. Review Your Progress</h3>
+                <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">
+                    Our smart tracker looks at your answers and calculates a daily stress score. You can view your progress on a beautifully designed chart and see how your habits affect your mood.
+                </p>
+            </div>
         </div>
     </div>
 
     <div class="features-grid fade-in">
         <div class="feature-card">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-icon"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main);">Predictive AI Inference</h3>
-            <p style="color: var(--text-muted); line-height: 1.6;">Utilizing extreme gradient boosting architectures targeting static demographic and longitudinal variables.</p>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main);">Smart Predictions</h3>
+            <p style="color: var(--text-muted); line-height: 1.6;">Our tool learns from your history to give you personalized warnings when you might be pushing yourself too hard.</p>
         </div>
         <div class="feature-card">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-icon"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
-            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main);">Continuous Monitoring</h3>
-            <p style="color: var(--text-muted); line-height: 1.6;">Pivoting away from reactive isolated surveys in favor of systemic daily multi-dimensional behavioral logging arrays.</p>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main);">Daily Tracking</h3>
+            <p style="color: var(--text-muted); line-height: 1.6;">Build a healthy routine by consistently logging your day. Keeping track of your habits is the first step to feeling better.</p>
         </div>
         <div class="feature-card">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main);">Absolute Data Privacy</h3>
-            <p style="color: var(--text-muted); line-height: 1.6;">Full anonymization and rigid JWT session authorization securing highly sensitive medical trajectory information.</p>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main);">Complete Privacy</h3>
+            <p style="color: var(--text-muted); line-height: 1.6;">Your information is fully safe with us. We use strong security to make sure your private health data stays yours alone.</p>
         </div>
     </div>
     

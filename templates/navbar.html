@@ -12,6 +12,7 @@
         
         {% if current_user.is_authenticated %}
             <a href="{{ url_for('report') }}" style="color: var(--text-muted); text-decoration: none;">Analytics</a>
+            <a href="{{ url_for('profile') }}" style="color: var(--text-muted); text-decoration: none;">Profile Settings</a>
             <a href="{{ url_for('logout') }}" style="padding: 0.5rem 1rem; background: var(--secondary); color: var(--text-main); border-radius: 6px; text-decoration: none; transition: 0.2s;">Logout</a>
         {% else %}
             <a href="{{ url_for('login') }}" style="padding: 0.5rem 1rem; background: var(--primary); color: #fff; border-radius: 6px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);">Login / Sign Up</a>
