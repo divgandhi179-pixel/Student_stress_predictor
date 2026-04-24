@@ -18,15 +18,6 @@ services:
           name: neuromind-db
           property: connectionString
 
-  # Next.js Frontend (Marketing Site: /, /about, /contact)
-  - type: web
-    name: neuromind-frontend
-    env: node
-    rootDir: client
-    buildCommand: npm install && npm run build
-    startCommand: npm run start
-    plan: free
-
 databases:
   # Secure Cloud Database for Users and Analytics Logs
   - name: neuromind-db

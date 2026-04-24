@@ -51,10 +51,10 @@
                     <div class="input-group">
                         <label>Financial Status</label>
                         <select name="financial" required>
-                            <option value="Fabulous">Fabulous</option>
-                            <option value="good">Good</option>
-                            <option value="Bad">Bad</option>
-                            <option value="Awful">Awful</option>
+                            <option value="Fabulous" {% if user.financial == 'Fabulous' %}selected{% endif %}>Excellent / Very Secure</option>
+                            <option value="good" {% if user.financial == 'good' or not user.financial %}selected{% endif %}>Good / Stable</option>
+                            <option value="Bad" {% if user.financial == 'Bad' %}selected{% endif %}>Poor / Struggling</option>
+                            <option value="Awful" {% if user.financial == 'Awful' %}selected{% endif %}>Awful / In Crisis</option>
                         </select>
                     </div>
                 </div>
@@ -104,8 +104,11 @@
                         <input type="number" name="salexpect" value="{{ user.salexpect or 50000 }}" required>
                     </div>
                     <div class="input-group">
-                        <label>Willing to Work in this Field? (%)</label>
-                        <input type="number" name="career_willing" value="{{ user.career_willing or 80 }}" required>
+                        <label>Willing to Work in this Field?</label>
+                        <select name="career_willing" required>
+                            <option value="100" {% if not user.career_willing or user.career_willing >= 50 %}selected{% endif %}>Yes</option>
+                            <option value="0" {% if user.career_willing and user.career_willing < 50 %}selected{% endif %}>No</option>
+                        </select>
                     </div>
                 </div>
             </div>
