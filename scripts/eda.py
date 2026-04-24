@@ -17,7 +17,7 @@ sns.set_theme(style="whitegrid")
 # ==============================
 # 2️⃣ Load Dataset
 # ==============================
-df = pd.read_csv("Student Attitude and Behavior.csv")
+df = pd.read_csv("../data/Student Attitude and Behavior.csv")
 
 # Rename columns for easier use
 df.rename(columns={

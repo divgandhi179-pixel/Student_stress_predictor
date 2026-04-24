@@ -80,9 +80,9 @@ def train_daily_model():
     
     print(f"Model trained! MAE: {mae:.2f}, R2 Score: {r2:.2f}")
     
-    os.makedirs('models', exist_ok=True)
-    joblib.dump(model, 'models/daily_stress_model.joblib')
-    print("Model saved to models/daily_stress_model.joblib")
+    os.makedirs('../models', exist_ok=True)
+    joblib.dump(model, '../models/daily_stress_model.joblib')
+    print("Model saved to ../models/daily_stress_model.joblib")
 
 if __name__ == "__main__":
     train_daily_model()

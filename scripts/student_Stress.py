@@ -18,7 +18,7 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
 
-df = pd.read_csv("Student Attitude and Behavior.csv")
+df = pd.read_csv("../data/Student Attitude and Behavior.csv")
 
 df.head()
 
@@ -267,11 +267,11 @@ def build_and_evaluate_models(df, encoder):
     print(f'Best model based on weighted F1-score: {best_model_name} (F1 = {best_f1:.2f})')
     
     # Save the best model and preprocessing tools
-    os.makedirs('models', exist_ok=True)
-    joblib.dump(best_model_obj, 'models/best_model.joblib')
-    joblib.dump(scaler, 'models/scaler.joblib')
-    joblib.dump(encoder, 'models/encoder.joblib')
-    joblib.dump(list(X.columns), 'models/feature_names.joblib')
+    os.makedirs('../models', exist_ok=True)
+    joblib.dump(best_model_obj, '../models/best_model.joblib')
+    joblib.dump(scaler, '../models/scaler.joblib')
+    joblib.dump(encoder, '../models/encoder.joblib')
+    joblib.dump(list(X.columns), '../models/feature_names.joblib')
     print("Successfully saved best model and preprocessing tools to the 'models/' directory.")
 
 
