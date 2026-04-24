@@ -311,7 +311,7 @@ def report():
             if avg_sleep_high < 6:
                 insights.append(f"Suggestion: On high stress days, your average sleep is only {avg_sleep_high:.1f} hours. Improving sleep is a clear priority.")
         
-    return render_template('report.html', user=current_user, dates=dates, scores=scores, avg_score=avg_score, insights=insights)
+    return render_template('report.html', user=current_user, dates=dates, scores=scores, avg_score=avg_score, insights=insights, logs=logs)
 
 @app.route('/seed')
 @login_required
