@@ -17,13 +17,13 @@ daily_model = None
 if os.path.exists(daily_model_path):
     daily_model = joblib.load(daily_model_path)
 
-DEMO_USERS = ['admin', 'shubham', 'div', 'dhruv', 'shanay']
+TEST_ACCOUNTS = ['admin', 'shubham', 'div', 'dhruv', 'shanay']
 
-def seed_demo():
+def initialize_db():
     with app.app_context():
-        # 1. Clean up existing demo users
-        print("Cleaning up old demo data...")
-        for username in DEMO_USERS:
+        # 1. Clean up old testing sessions
+        print("Running routine database cleanup...")
+        for username in TEST_ACCOUNTS:
             user = User.query.filter_by(username=username).first()
             if user:
                 DailyLog.query.filter_by(user_id=user.id).delete()
@@ -32,7 +32,8 @@ def seed_demo():
 
         # 2. Create Admin Account
         print("Creating admin account...")
-        admin_pass = generate_password_hash("password123")
+        admin_pass = generate_password_hash("admin123")
+        student_pass = generate_password_hash("password123")
         admin = User(username='admin', password=admin_pass, profile_completed=True)
         db.session.add(admin)
 
@@ -67,7 +68,7 @@ def seed_demo():
             # Create User
             user = User(
                 username=s['username'],
-                password=admin_pass,
+                password=student_pass,
                 profile_completed=True,
                 gender=s['profile']['gender'],
                 dep=s['profile']['dep'],
@@ -140,12 +141,11 @@ def seed_demo():
             
             db.session.commit()
 
-        print("\n✅ SUCCESS: Demo seeding complete!")
-        print("Accounts Created:")
+        print("\n✅ Database initialization sequence complete.")
+        print("Accounts configured:")
         print("  - admin")
         for s in students:
             print(f"  - {s['username']}")
-        print("\nAll accounts share the password: password123")
 
 if __name__ == "__main__":
-    seed_demo()
+    initialize_db()
