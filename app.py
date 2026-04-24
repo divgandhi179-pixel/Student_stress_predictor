@@ -51,7 +51,7 @@ if os.path.exists(best_model_path):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     profile_completed = db.Column(db.Boolean, default=False)
     
     # Keeping old static vars for backwards compatibility

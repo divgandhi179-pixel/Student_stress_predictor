@@ -21,6 +21,10 @@ TEST_ACCOUNTS = ['admin', 'shubham', 'div', 'dhruv', 'shanay']
 
 def initialize_db():
     with app.app_context():
+        print("Recreating database schema to ensure up-to-date column lengths...")
+        db.drop_all()
+        db.create_all()
+        
         # 1. Clean up old testing sessions
         print("Running routine database cleanup...")
         for username in TEST_ACCOUNTS:
