@@ -352,8 +352,8 @@ def report():
         highest_day = max(logs, key=lambda x: x.stress_score)
         lowest_day = min(logs, key=lambda x: x.stress_score)
         
-        insights.append(f"Highest stress day: {highest_day.date.strftime('%A')} ({highest_day.stress_score})")
-        insights.append(f"Lowest stress day: {lowest_day.date.strftime('%A')} ({lowest_day.stress_score})")
+        insights.append(f"Highest stress day: {highest_day.date.strftime('%A')} ({highest_day.stress_score:.1f})")
+        insights.append(f"Lowest stress day: {lowest_day.date.strftime('%A')} ({lowest_day.stress_score:.1f})")
         
         high_stress_logs = [l for l in logs if l.stress_score >= 60]
         if high_stress_logs:

@@ -34,7 +34,7 @@
         <div class="form-section fade-in" style="text-align:center;">
             <h3>Not enough data yet!</h3>
             <p style="margin-bottom: 20px;">You need to log your daily habits to generate a weekly report.</p>
-            <a href="{{ url_for('seed') }}" class="glow-button" style="text-decoration:none;"> Generate 7-Day Demo Data Now</a>
+            <a href="{{ url_for('dashboard') }}" class="glow-button" style="text-decoration:none;"> Go to Dashboard to Log Data</a>
         </div>
         {% else %}
         
@@ -103,7 +103,6 @@
         
         <div style="text-align:center; margin-top:2rem; display:flex; justify-content:center; gap:10px;">
             <button onclick="exportToPDF()" class="glow-button" style="text-decoration:none; font-size:0.9rem; margin:0;"> Export to PDF</button>
-            <a href="{{ url_for('seed') }}" class="secondary-button" style="text-decoration:none; font-size:0.9rem; margin:0;">Regenerate Demo Data</a>
         </div>
         {% endif %}
         
