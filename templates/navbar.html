@@ -1,6 +1,23 @@
-<nav style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; z-index: 100; position: relative;">
-    <a href="{{ url_for('dashboard') }}" class="secondary-button" style="text-decoration:none;"> Daily Check-in</a>
-    <a href="{{ url_for('report') }}" class="secondary-button" style="text-decoration:none;"> Weekly Report</a>
-    <a href="{{ url_for('profile') }}" class="secondary-button" style="text-decoration:none;">️ Profile</a>
-    <a href="{{ url_for('logout') }}" class="secondary-button text-danger" style="text-decoration:none; font-weight: 700;">Logout</a>
+<nav class="universal-navbar fade-in" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; border-bottom: 1px solid var(--border-color); background: var(--surface-color); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(20px);">
+    <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1.4rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity" style="color: var(--primary);"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
+        <a href="{{ url_for('home') }}" style="color: var(--text-main); text-decoration: none;">NeuroMind.</a>
+    </div>
+    
+    <div class="nav-links universal-links" style="display: flex; gap: 1.5rem; align-items: center; font-weight: 600;">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard') }}" style="color: var(--text-muted); text-decoration: none;">Daily Telemetry</a>
+            <a href="{{ url_for('report') }}" style="color: var(--text-muted); text-decoration: none;">Analytics</a>
+            <a href="{{ url_for('profile') }}" style="color: var(--text-muted); text-decoration: none;">Profile Configure</a>
+            <a href="{{ url_for('logout') }}" style="padding: 0.5rem 1rem; background: var(--secondary); color: var(--text-main); border-radius: 6px; text-decoration: none; transition: 0.2s;">Disconnect</a>
+        {% else %}
+            <a href="{{ url_for('about') }}" style="color: var(--text-muted); text-decoration: none;">Documentation</a>
+            <a href="{{ url_for('contact') }}" style="color: var(--text-muted); text-decoration: none;">Support</a>
+            <a href="{{ url_for('login') }}" style="padding: 0.5rem 1rem; background: var(--primary); color: #fff; border-radius: 6px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);">Portal Access</a>
+        {% endif %}
+    </div>
 </nav>
+
+<style>
+    .universal-links a:hover { color: var(--primary) !important; opacity: 0.9; }
+</style>

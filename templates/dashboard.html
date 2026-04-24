@@ -217,16 +217,7 @@
     <div class="mesh-orb"></div>
 
     <div style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 1rem;">
-        <nav class="top-navbar fade-in">
-            <div class="nav-brand">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity" style="color: var(--primary)"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg> NeuroMind
-            </div>
-            <div class="nav-links" style="display: flex; align-items: center;">
-                <a href="{{ url_for('report') }}">Analytics</a>
-                <a href="{{ url_for('profile') }}">Profile</a>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            </div>
-        </nav>
+        {% include 'navbar.html' %}
         
         <header class="fade-in" style="margin-bottom: 3rem;">
             <h1 style="font-size: 2.8rem; margin-bottom: 0.5rem;">Student Stress Prediction</h1>

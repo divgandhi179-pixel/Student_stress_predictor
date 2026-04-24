@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Cognitive Telemetry - NeuroMind</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .hero-section {
+            width: 100%;
+            padding: 8rem 0;
+            background: var(--background-color);
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.05em;
+            color: var(--text-main);
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            padding: 5rem 2rem;
+            background: var(--surface-solid);
+            border-top: 1px solid var(--border-color);
+        }
+        .feature-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .feature-icon {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    {% include 'navbar.html' %}
+    
+    <div class="mesh-orb"></div>
+    
+    <div class="hero-section fade-in">
+        <h1 class="hero-title">
+            Enterprise-Grade <br/>
+            <span style="color: var(--primary);">Cognitive Telemetry.</span>
+        </h1>
+        <p class="hero-subtitle">
+            Advanced predictive analytics processing granular behavioral logs to forecast and mitigate psychological stress mechanisms before clinical manifestation.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="{{ url_for('login') }}" class="glow-button" style="text-decoration: none; padding: 1rem 2rem;">Access Platform -></a>
+            <a href="{{ url_for('about') }}" class="secondary-button" style="text-decoration: none; padding: 1rem 2rem; font-weight: 600;">View Documentation</a>
+        </div>
+    </div>
+
+    <div class="features-grid fade-in">
+        <div class="feature-card">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-icon"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main);">Predictive AI Inference</h3>
+            <p style="color: var(--text-muted); line-height: 1.6;">Utilizing extreme gradient boosting architectures targeting static demographic and longitudinal variables.</p>
+        </div>
+        <div class="feature-card">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-icon"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main);">Continuous Monitoring</h3>
+            <p style="color: var(--text-muted); line-height: 1.6;">Pivoting away from reactive isolated surveys in favor of systemic daily multi-dimensional behavioral logging arrays.</p>
+        </div>
+        <div class="feature-card">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main);">Absolute Data Privacy</h3>
+            <p style="color: var(--text-muted); line-height: 1.6;">Full anonymization and rigid JWT session authorization securing highly sensitive medical trajectory information.</p>
+        </div>
+    </div>
+    
+    <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted);">
+        <p>© 2026 NeuroMind Architecture. All rights reserved.</p>
+    </footer>
+</body>
+</html>
