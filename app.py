@@ -108,6 +108,12 @@ def about():
 def contact():
     return render_template('contact.html')
 
+@app.route('/run_setup')
+def run_setup():
+    import subprocess
+    result = subprocess.run(["python", "scripts/db_setup.py"], capture_output=True, text=True)
+    return f"<pre>Database setup executed.\n\nOutput:\n{result.stdout}\n\nErrors:\n{result.stderr}</pre>"
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
