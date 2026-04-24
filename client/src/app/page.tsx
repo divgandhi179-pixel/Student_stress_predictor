@@ -69,7 +69,7 @@ export default function Home() {
       
       <footer className="w-full py-6 border-t bg-[color:var(--background)] mt-auto">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm text-[color:var(--muted-foreground)]">
-           <p>© 2026 NeuroMetrics Architecture. All rights reserved.</p>
+           <p>© 2026 NeuroMind Architecture. All rights reserved.</p>
            <div className="space-x-4">
               <Link href="/privacy" className="hover:underline">Privacy Architecture</Link>
               <Link href="/contact" className="hover:underline">Systems Support</Link>

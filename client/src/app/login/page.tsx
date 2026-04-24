@@ -54,7 +54,7 @@ export default function Login() {
         <div className="flex flex-col items-center">
            <Link href="/" className="flex items-center gap-2 mb-8">
               <Activity className="h-8 w-8 text-[color:var(--primary)]" />
-              <span className="font-extrabold text-2xl tracking-tight">NeuroMetrics.</span>
+              <span className="font-extrabold text-2xl tracking-tight">NeuroMind.</span>
            </Link>
           <h2 className="text-center text-2xl font-bold tracking-tight">
             {isLogin ? "Authenticate to Portal" : "Establish New Credentials"}

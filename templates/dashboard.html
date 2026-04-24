@@ -3,9 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Check-in - AI Stress Predictor</title>
+    <title>Dashboard - AI Stress Predictor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        @media (max-width: 850px) {
+            .split-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .panel {
+            background: var(--surface-color);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            gap: 1rem;
+        }
+
+        .input-row label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            flex: 1;
+        }
+
+        .input-row input {
+            width: 120px;
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-solid);
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .input-row input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        /* SVG Speedometer */
+        .gauge-wrapper {
+            position: relative;
+            width: 250px;
+            height: 125px;
+            margin: 0 auto 2rem auto;
+            display: flex;
+            justify-content: center;
+            align-items:flex-end;
+            overflow: hidden;
+        }
+        .gauge-background {
+            position: absolute;
+            top: 0; left: 0;
+            width: 250px; height: 250px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #10b981 0deg 90deg, 
+                #f59e0b 90deg 180deg, 
+                #ef4444 180deg 270deg, 
+                transparent 270deg 360deg
+            );
+            transform: rotate(-135deg); /* start from bottom left */
+            border: 20px solid var(--surface-color);
+            box-sizing: border-box;
+            mask-image: radial-gradient(transparent 55%, black 56%);
+            -webkit-mask-image: radial-gradient(transparent 55%, black 56%);
+        }
+        
+        .gauge-needle-container {
+            position: absolute;
+            bottom: 0px; 
+            left: 50%;
+            width: 10px;
+            height: 100px;
+            transform-origin: bottom center;
+            transform: rotate(-90deg); /* 0 score */
+            transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 10;
+        }
+        
+        .needle {
+            width: 4px;
+            height: 85px;
+            background: var(--text-main);
+            border-radius: 4px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        
+        .needle-base {
+            width: 20px;
+            height: 20px;
+            background: var(--text-main);
+            border-radius: 50%;
+            position: absolute;
+            bottom: -5px;
+            left: -8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .stress-level-text {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .stress-level-value {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-top: 0.25rem;
+            transition: color 0.5s;
+        }
+
+        .recommendation-box {
+            background: var(--input-bg);
+            border: 1px solid var(--border-solid);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            flex-grow: 1;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            font-weight: 500;
+            line-height: 1.6;
+        }
+        
+        .recommendation-box h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+        
+        .placeholder-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-muted);
+            text-align: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .top-navbar {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto 2rem auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface-color);
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .nav-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links a {
+            margin-left: 1.5rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+    </style>
 </head>
 <body>
     <div class="theme-switch-wrapper">
@@ -16,91 +214,99 @@
         <span id="theme-icon">🌙</span>
     </div>
 
-    <!-- Background Orbs -->
     <div class="mesh-orb"></div>
 
-    <div class="container fade-in" style="max-width: 900px;">
-        <!-- Navbar -->
-        {% include 'navbar.html' %}
-
-        <header class="dashboard-header" style="text-align: center; margin-bottom: 2rem; display: block; border-bottom: none;">
-            <div style="font-size: 3rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">📝</div>
-            <h1 style="margin-bottom: 5px; font-size: 2.2rem;">Daily Check-in</h1>
-            <p style="margin: 0; font-size: 1.1rem; color: var(--text-muted);">Hi, <b>{{ user.username }}</b>. Log today's variables!</p>
+    <div style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 1rem;">
+        <nav class="top-navbar fade-in">
+            <div class="nav-brand">
+                <span style="font-size: 1.8rem;">🧠</span> NeuroMind
+            </div>
+            <div class="nav-links" style="display: flex; align-items: center;">
+                <a href="{{ url_for('report') }}">Analytics</a>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </div>
+        </nav>
+        
+        <header class="fade-in" style="margin-bottom: 3rem;">
+            <h1 style="font-size: 2.8rem; margin-bottom: 0.5rem;">Student Stress Prediction</h1>
+            <p>Advanced diagnostic profiling. Enter your current wellness metrics.</p>
         </header>
 
-        {% if baseline_stress != "Unknown" %}
-        <div class="result-glass" style="margin-bottom: 30px; text-align: center; border-left: 5px solid {% if 'Low' in baseline_stress %}#10b981{% elif 'Medium' in baseline_stress %}#f59e0b{% else %}#ef4444{% endif %};">
-            <h3 style="margin-top:0; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                🧠 AI Baseline Profile Rating
-            </h3>
-            <p style="color: var(--text-muted); font-size: 0.95rem;">Based on your permanent academic/lifestyle metrics</p>
-            <div style="font-size: 2.5rem; font-weight: 800; margin: 10px 0; color: {% if 'Low' in baseline_stress %}#10b981{% elif 'Medium' in baseline_stress %}#f59e0b{% else %}#ef4444{% endif %};">
-                {{ baseline_stress }}
-            </div>
-        </div>
-        {% endif %}
-
-        <form id="predictionForm" style="max-width: 550px; margin: 0 auto;">
-            <div class="form-section fade-in">
-                <h3 style="text-align:center; font-size: 1.5rem; margin-bottom: 20px;">How did today go?</h3>
+        <div class="split-layout fade-in">
+            <!-- Left Side: Inputs -->
+            <div class="panel">
+                <h3 style="font-size: 1.4rem; color: var(--primary); margin-bottom: 1.5rem; font-weight: 800;">
+                    Daily Parameters
+                </h3>
                 
-                <div class="input-group" style="margin-bottom: 20px;">
-                    <label>😴 Sleep Hours</label>
-                    <input type="number" step="0.5" name="sleep_hours" value="7" min="0" max="24" required>
-                </div>
-
-                <div class="input-group" style="margin-bottom: 20px;">
-                    <label>📚 Study Hours</label>
-                    <input type="number" step="0.5" name="study_hours" value="4" min="0" max="24" required>
-                </div>
-
-                <div class="input-group" style="margin-bottom: 20px;">
-                    <label>😊 Mood (1=Awful, 5=Great)</label>
-                    <input type="range" name="mood" min="1" max="5" value="3" style="width: 100%; margin-top:10px;" oninput="this.nextElementSibling.value = this.value">
-                    <output style="text-align: center; font-weight: bold; margin-top: 5px; display: block;">3</output>
-                </div>
-
-                <div class="input-group" style="margin-bottom: 20px;">
-                    <label>🏃 Physical Activity (Hours)</label>
-                    <input type="number" step="0.5" name="physical_activity" value="1" min="0" max="24" required>
-                </div>
-
-                <div class="input-group" style="margin-bottom: 20px;">
-                    <label>💬 Social / Screen Time (Hours)</label>
-                    <input type="number" step="0.5" name="social_interaction" value="2" min="0" max="24" required>
-                </div>
+                <form id="predictionForm" style="display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+                    <div>
+                        <div class="input-row">
+                            <label>Sleep Duration (hours)</label>
+                            <input type="number" step="0.5" name="sleep_hours" value="6.0" min="0" max="24" required>
+                        </div>
+                        <div class="input-row">
+                            <label>Study Hours (per day)</label>
+                            <input type="number" step="0.5" name="study_hours" value="5.0" min="0" max="24" required>
+                        </div>
+                        <div class="input-row">
+                            <label>Physical Activity (hours/week)</label>
+                            <input type="number" step="0.5" name="physical_activity" value="3.0" min="0" max="24" required>
+                        </div>
+                        <div class="input-row">
+                            <label>Social Interaction (hours/week)</label>
+                            <input type="number" step="0.5" name="social_interaction" value="4.0" min="0" max="24" required>
+                        </div>
+                        <div class="input-row">
+                            <label>Academic Pressure (1-10)</label>
+                            <input type="number" step="1" name="academic_pressure" value="7" min="1" max="10" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="glow-button" id="submitBtn" style="margin-top: 2rem;">
+                        <span>Predict Stress</span>
+                        <div class="loader" id="loader"></div>
+                    </button>
+                </form>
             </div>
 
-            <button type="submit" class="glow-button" id="submitBtn">
-                <span>Analyze Today's Stress Level</span>
-                <div class="loader" id="loader"></div>
-            </button>
-        </form>
+            <!-- Right Side: Dashboard / Speedometer -->
+            <div class="panel" style="background: var(--surface-solid);">
+                
+                <!-- Initial State -->
+                <div id="placeholderState" class="placeholder-state">
+                    <div style="font-size: 4rem; opacity: 0.5;">📊</div>
+                    <p>Enter your parameters and click "Predict Stress"<br/>to generate a real-time risk profile.</p>
+                </div>
+                
+                <!-- Result State (Hidden by default) -->
+                <div id="resultState" class="hidden" style="display: flex; flex-direction: column; height: 100%; transition: opacity 0.5s;">
+                    <div class="gauge-wrapper">
+                        <!-- We use conic gradient to simulate gauge colors -->
+                        <div class="gauge-background"></div>
+                        <div class="gauge-needle-container" id="gaugeNeedle">
+                            <div class="needle"></div>
+                            <div class="needle-base"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="stress-level-text">Predicted Stress Level</div>
+                    <div class="stress-level-value" id="stressText">HIGH</div>
+                    
+                    <div class="recommendation-box">
+                        <h4>Recommendation</h4>
+                        <div id="feedbackText">Your stress level is High. Consider improving sleep, taking breaks and managing your time better.</div>
+                    </div>
+                </div>
 
-        <!-- Result Section -->
-        <div id="resultSection" class="result-glass hidden" style="margin-top: 30px; max-width: 550px; margin-inline: auto;">
-            <h2 id="stressTitle">Instant Feedback</h2>
-            
-            <div style="font-size: 4rem; font-weight: 800; color: var(--primary); margin: 20px 0;" id="scoreDisplay">
-                0<span style="font-size: 1.5rem; color: var(--text-muted)">/100</span>
-            </div>
-            
-            <div class="gauge-container">
-                 <div class="gauge-bar" id="gaugeBar"></div>
-            </div>
-            
-            <div id="insightsBox" class="insights"></div>
-            
-            <div style="display:flex; gap: 10px; margin-top: 20px;">
-                <button class="secondary-button" onclick="location.reload()" style="flex:1;">Log Another Demo Day</button>
-                <a href="{{ url_for('report') }}" class="glow-button" style="flex:1; margin-top: 0; padding: 0.85rem;">See Weekly Trend ➔</a>
             </div>
         </div>
     </div>
 
     <!-- Script Logic -->
     <script>
+        // Theme Logic
         const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
         const themeIcon = document.getElementById('theme-icon');
         const currentTheme = localStorage.getItem('theme');
@@ -125,17 +331,25 @@
             }    
         });
 
+        // Form Submit
         document.getElementById('predictionForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const btn = document.getElementById('submitBtn');
             const form = document.getElementById('predictionForm');
-            const resultBox = document.getElementById('resultSection');
             
             btn.classList.add('loading');
             
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
+            
+            // Map Academic Pressure (1-10) to Mood (1=Awful, 5=Great) for the ML app
+            // High pressure = bad mood. Let's do a linear mapping.
+            const ap = parseInt(data.academic_pressure);
+            // AP 10 -> Mood 1
+            // AP 1 -> Mood 5
+            const mappedMood = Math.max(1, Math.min(5, Math.round(5 - ((ap - 1) * (4/9)))));
+            data.mood = mappedMood;
             
             try {
                 const response = await fetch('/predict', {
@@ -146,49 +360,74 @@
                 
                 const result = await response.json();
                 
-                form.style.display = 'none';
-                btn.style.display = 'none';
-                resultBox.classList.remove('hidden');
-                resultBox.classList.add('fade-in');
+                // Hide placeholder, show results
+                document.getElementById('placeholderState').style.display = 'none';
+                const resultState = document.getElementById('resultState');
+                resultState.classList.remove('hidden');
                 
                 if (result.status === 'success') {
-                    document.getElementById('scoreDisplay').innerHTML = `${result.score}<span style="font-size: 1.5rem; color: var(--text-muted)">/100 Daily Stress</span>`;
+                    // Score is 0 - 100
+                    const score = parseFloat(result.score);
                     
-                    let gauge = document.getElementById('gaugeBar');
-                    // Reverse coloring: High stress (100) = Red, Low stress = Green
-                    let color = result.score > 70 ? '#ef4444' : (result.score > 40 ? '#f59e0b' : '#10b981');
+                    // Determine level and color
+                    let level = "LOW";
+                    let color = "#10b981"; // green
+                    let rotation = -90; // Default (Low)
                     
-                    gauge.style.width = '0%';
-                    gauge.style.backgroundColor = color;
-                    setTimeout(() => {
-                        gauge.style.width = result.score + '%';
-                    }, 300);
-
-                    let insightsBox = document.getElementById('insightsBox');
-                    insightsBox.innerHTML = '<h3>Mini Feedback:</h3>';
-                    result.feedback.forEach(insight => {
-                        insightsBox.innerHTML += `<p>${insight}</p>`;
-                    });
+                    if (score > 70) {
+                        level = "HIGH";
+                        color = "#ef4444"; // red
+                        // map 70-100 to 30deg to 90deg
+                        rotation = 30 + ((score - 70) / 30) * 60;
+                    } else if (score > 40) {
+                        level = "MEDIUM";
+                        color = "#f59e0b"; // yellow
+                        // map 40-70 to -30deg to 30deg
+                        rotation = -30 + ((score - 40) / 30) * 60;
+                    } else {
+                        level = "LOW";
+                        color = "#10b981"; // green
+                        // map 0-40 to -90deg to -30deg
+                        rotation = -90 + (score / 40) * 60;
+                    }
+                    
+                    // Constrain rotation between -90 and 90
+                    rotation = Math.max(-90, Math.min(90, rotation));
+                    
+                    // Update UI elements
+                    document.getElementById('stressText').textContent = level;
+                    document.getElementById('stressText').style.color = color;
+                    
+                    const needle = document.getElementById('gaugeNeedle');
+                    // Force a reflow to restart transition if needed
+                    void needle.offsetWidth;
+                    needle.style.transform = `rotate(${rotation}deg)`;
+                    
+                    // Update feedback intelligently
+                    let feedbackHtml = `<p>Your stress score is <b>${score} / 100</b> (${level}).</p>`;
+                    if (result.feedback && result.feedback.length > 0) {
+                        feedbackHtml += `<ul style="margin-top: 10px; margin-left: 20px; color: var(--text-muted);">`;
+                        result.feedback.forEach(f => {
+                            feedbackHtml += `<li>${f}</li>`;
+                        });
+                        feedbackHtml += `</ul>`;
+                    }
+                    if (level === "HIGH") {
+                         feedbackHtml += `<p style="margin-top:10px;">Consider improving sleep, taking breaks and managing your time better.</p>`;
+                    }
+                    
+                    document.getElementById('feedbackText').innerHTML = feedbackHtml;
                      
                 } else {
-                    document.getElementById('stressTitle').innerText = 'Error Saving Log';
+                    document.getElementById('feedbackText').innerText = 'Error Saving Log';
                 }
             } catch (error) {
                 console.error(error);
-                alert("An error occurred getting the prediction. Did you enter valid numbers?");
+                alert("An error occurred getting the prediction.");
+            } finally {
                 btn.classList.remove('loading');
             }
         });
-
-        const keyframes = `
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }`;
-        const styleSheet = document.createElement("style");
-        styleSheet.innerText = keyframes;
-        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>

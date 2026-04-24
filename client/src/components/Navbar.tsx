@@ -15,7 +15,7 @@ export default function Navbar() {
           <div className="flex">
             <Link href="/" className="flex flex-shrink-0 items-center gap-2">
               <Activity className="h-6 w-6 text-[color:var(--primary)]" />
-              <span className="font-bold text-lg tracking-tight">NeuroMetrics.</span>
+              <span className="font-bold text-lg tracking-tight">NeuroMind.</span>
             </Link>
             {isDashboard && (
               <div className="hidden sm:ml-8 sm:flex sm:space-x-8">
