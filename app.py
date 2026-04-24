@@ -204,6 +204,7 @@ def admin_panel():
         else: status = 'No Data'
         
         user_data.append({
+            'user_obj': u,
             'username': u.username,
             'dep': u.dep or 'N/A',
             'days_logged': len(logs),
