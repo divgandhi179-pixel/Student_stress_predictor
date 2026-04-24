@@ -177,9 +177,45 @@ def profile():
         return redirect(url_for('dashboard'))
     return render_template('profile.html', user=current_user)
 
+@app.route('/admin')
+@login_required
+def admin_panel():
+    if current_user.username != 'admin':
+        return redirect(url_for('dashboard'))
+        
+    users = User.query.filter(User.username != 'admin').all()
+    user_data = []
+    
+    for u in users:
+        last_10_days = datetime.utcnow().date() - timedelta(days=10)
+        logs = DailyLog.query.filter(DailyLog.user_id == u.id, DailyLog.date >= last_10_days).all()
+        scores = [l.stress_score for l in logs]
+        avg_stress = round(sum(scores) / len(scores), 1) if scores else 0
+        
+        if avg_stress > 70: status = 'Critical'
+        elif avg_stress > 40: status = 'Moderate'
+        elif avg_stress > 0: status = 'Stable'
+        else: status = 'No Data'
+        
+        user_data.append({
+            'username': u.username,
+            'dep': u.dep or 'N/A',
+            'days_logged': len(logs),
+            'avg_stress': avg_stress,
+            'status': status
+        })
+        
+    total_users = len(users)
+    valid_scores = [u['avg_stress'] for u in user_data if u['avg_stress'] > 0]
+    platform_avg = round(sum(valid_scores) / len(valid_scores), 1) if valid_scores else 0
+    
+    return render_template('admin.html', user=current_user, users=user_data, total_users=total_users, platform_avg=platform_avg)
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    if current_user.username == 'admin':
+        return redirect(url_for('admin_panel'))
     if not current_user.profile_completed:
         return redirect(url_for('profile'))
         
