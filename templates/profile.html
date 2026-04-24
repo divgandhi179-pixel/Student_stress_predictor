@@ -13,7 +13,7 @@
             <input type="checkbox" id="checkbox" />
             <div class="slider round"></div>
         </label>
-        <span id="theme-icon">☀️</span>
+        <span id="theme-icon" style="font-size: 0.8rem; font-weight: bold; margin-left: 5px;">DARK</span>
     </div>
 
     <!-- Background Orbs -->
@@ -24,7 +24,7 @@
         {% include 'navbar.html' %}
 
         <header>
-            <div style="font-size: 3rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">⚙️</div>
+            <div style="font-size: 3rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">️</div>
             <h1>One-Time Profile Setup</h1>
             <p>Welcome, <b>{{ user.username }}</b>! Please enter your fixed academic and lifestyle details once. We will use this to calculate your daily stress later.</p>
         </header>
@@ -156,7 +156,7 @@
             </div>
 
             <button type="submit" class="glow-button">
-                <span>Save Profile ✨</span>
+                <span>Save Profile </span>
             </button>
             <p style="text-align:center; margin-top:20px;">
                 <a href="{{ url_for('logout') }}" class="text-danger" style="text-decoration:none;font-weight:600;">Logout</a>
@@ -173,7 +173,7 @@
             document.body.classList.add(currentTheme);
             if (currentTheme === 'dark-theme') {
                 toggleSwitch.checked = true;
-                themeIcon.textContent = '🌙';
+                themeIcon.textContent = 'DARK';
             }
         }
 
@@ -181,11 +181,11 @@
             if (e.target.checked) {
                 document.body.classList.add('dark-theme');
                 localStorage.setItem('theme', 'dark-theme');
-                themeIcon.textContent = '🌙';
+                themeIcon.textContent = 'DARK';
             } else {
                 document.body.classList.remove('dark-theme');
                 localStorage.setItem('theme', 'light');
-                themeIcon.textContent = '☀️';
+                themeIcon.textContent = 'LIGHT';
             }    
         });
     </script>

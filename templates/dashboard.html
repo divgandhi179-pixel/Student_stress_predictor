@@ -211,7 +211,7 @@
             <input type="checkbox" id="checkbox" />
             <div class="slider round"></div>
         </label>
-        <span id="theme-icon">🌙</span>
+        <span id="theme-icon" style="font-size: 0.8rem; font-weight: bold; margin-left: 5px;">DARK</span>
     </div>
 
     <div class="mesh-orb"></div>
@@ -219,7 +219,7 @@
     <div style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 1rem;">
         <nav class="top-navbar fade-in">
             <div class="nav-brand">
-                <span style="font-size: 1.8rem;">🧠</span> NeuroMind
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity" style="color: var(--primary)"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg> NeuroMind
             </div>
             <div class="nav-links" style="display: flex; align-items: center;">
                 <a href="{{ url_for('report') }}">Analytics</a>
@@ -276,7 +276,7 @@
                 
                 <!-- Initial State -->
                 <div id="placeholderState" class="placeholder-state">
-                    <div style="font-size: 4rem; opacity: 0.5;">📊</div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-3" style="opacity: 0.5; margin-bottom: 20px;"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
                     <p>Enter your parameters and click "Predict Stress"<br/>to generate a real-time risk profile.</p>
                 </div>
                 
@@ -315,7 +315,7 @@
             document.body.classList.add(currentTheme);
             if (currentTheme === 'dark-theme') {
                 toggleSwitch.checked = true;
-                themeIcon.textContent = '🌙';
+                themeIcon.textContent = 'DARK';
             }
         }
 
@@ -323,11 +323,11 @@
             if (e.target.checked) {
                 document.body.classList.add('dark-theme');
                 localStorage.setItem('theme', 'dark-theme');
-                themeIcon.textContent = '🌙';
+                themeIcon.textContent = 'DARK';
             } else {
                 document.body.classList.remove('dark-theme');
                 localStorage.setItem('theme', 'light');
-                themeIcon.textContent = '☀️';
+                themeIcon.textContent = 'LIGHT';
             }    
         });
 

@@ -13,7 +13,7 @@
             <input type="checkbox" id="checkbox" />
             <div class="slider round"></div>
         </label>
-        <span id="theme-icon">🌙</span>
+        <span id="theme-icon" style="font-size: 0.8rem; font-weight: bold; margin-left: 5px;">DARK</span>
     </div>
 
     <!-- Background Orbs defined in CSS pseudo-elements -->
@@ -21,7 +21,7 @@
 
     <div class="container fade-in" style="max-width: 450px; padding: 3.5rem;">
         <header>
-            <div style="font-size: 3rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">✨</div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity" style="color: var(--primary); margin: 0 auto 0.5rem auto; animation: float 3s ease-in-out infinite;"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
             <h1>Create Account</h1>
             <p>Start decoding your daily stress.</p>
         </header>
@@ -46,7 +46,7 @@
                 <input type="password" name="password" placeholder="Secure password" required>
             </div>
             <button type="submit" class="glow-button">
-                <span>Sign Up & Continue ➔</span>
+                <span>Sign Up & Continue </span>
             </button>
         </form>
         <p style="text-align: center; margin-top: 2.5rem; color: var(--text-muted); font-size: 0.95rem;">
@@ -61,14 +61,14 @@
         // Auto Dark Mode for Demo consistency
         document.body.classList.add('dark-theme');
         toggleSwitch.checked = true;
-        themeIcon.textContent = '🌙';
+        themeIcon.textContent = 'DARK';
 
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme) {
             if (currentTheme === 'light') {
                 document.body.classList.remove('dark-theme');
                 toggleSwitch.checked = false;
-                themeIcon.textContent = '☀️';
+                themeIcon.textContent = 'LIGHT';
             }
         }
 
@@ -76,11 +76,11 @@
             if (e.target.checked) {
                 document.body.classList.add('dark-theme');
                 localStorage.setItem('theme', 'dark-theme');
-                themeIcon.textContent = '🌙';
+                themeIcon.textContent = 'DARK';
             } else {
                 document.body.classList.remove('dark-theme');
                 localStorage.setItem('theme', 'light');
-                themeIcon.textContent = '☀️';
+                themeIcon.textContent = 'LIGHT';
             }    
         });
 
