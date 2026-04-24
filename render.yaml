@@ -1,0 +1,35 @@
+version: "1"
+
+services:
+  # Python Flask Backend (ML & Dashboard UI)
+  - type: web
+    name: neuromind-backend
+    env: python
+    buildCommand: pip install --no-cache-dir -r requirements.txt
+    startCommand: gunicorn -b 0.0.0.0:$PORT app:app
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: neuromind-db
+          property: connectionString
+
+  # Next.js Frontend (Marketing Site: /, /about, /contact)
+  - type: web
+    name: neuromind-frontend
+    env: node
+    rootDir: client
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    plan: free
+
+databases:
+  # Secure Cloud Database for Users and Analytics Logs
+  - name: neuromind-db
+    plan: free
+    databaseName: neuromind
+    user: admin
