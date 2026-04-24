@@ -571,3 +571,74 @@ a:hover {
   50% { transform: translateY(-10px); }
   100% { transform: translateY(0px); }
 }
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    /* Base spacing adjustments */
+    body {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+    
+    /* Container adjustments */
+    .container, .glass-panel {
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+        border-radius: 16px;
+    }
+    
+    /* Typography scaling */
+    header h1, header h2 {
+        font-size: 1.8rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    /* Navbar adjustments */
+    .universal-navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem !important;
+        text-align: center;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem !important;
+    }
+    
+    /* Form & Grid adjustments */
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Theme switcher adjustments */
+    .theme-switch-wrapper {
+        top: 1rem;
+        right: 1rem;
+        padding: 0.4rem 0.6rem;
+    }
+    
+    .theme-switch-wrapper span {
+        display: none; /* Hide text on mobile to save space */
+    }
+    
+    /* Analytics elements adjustments */
+    .result-glass {
+        padding: 1.5rem;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    /* Hide decorative orbs on mobile for performance and clean UI */
+    .mesh-orb {
+        display: none;
+    }
+}

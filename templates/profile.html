@@ -24,11 +24,17 @@
 
         <header>
             <div style="font-size: 3rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">️</div>
+            {% if user.profile_completed %}
+            <h1>Your Profile Details</h1>
+            <p>Welcome, <b>{{ user.username }}</b>! These are your saved academic and lifestyle details.</p>
+            {% else %}
             <h1>One-Time Profile Setup</h1>
             <p>Welcome, <b>{{ user.username }}</b>! Please enter your fixed academic and lifestyle details once. We will use this to calculate your daily stress later.</p>
+            {% endif %}
         </header>
 
         <form method="POST" action="{{ url_for('profile') }}">
+            <fieldset {% if user.profile_completed %}disabled{% endif %} style="border: none; padding: 0; margin: 0;">
             <!-- Demographics -->
             <div class="form-section fade-in">
                 <h3>Personal Demographics</h3>
@@ -65,7 +71,7 @@
                 <h3>Academic Details</h3>
                 <div class="grid">
                     <div class="input-group">
-                        <label>Department</label>
+                        <label>Degree</label>
                         <select name="dep" required>
                             <option value="BCA">BCA</option>
                             <option value="Commerce">Commerce</option>
@@ -157,9 +163,13 @@
                 </div>
             </div>
 
+            </fieldset>
+
+            {% if not user.profile_completed %}
             <button type="submit" class="glow-button">
                 <span>Save Profile </span>
             </button>
+            {% endif %}
             <p style="text-align:center; margin-top:20px;">
                 <a href="{{ url_for('logout') }}" class="text-danger" style="text-decoration:none;font-weight:600;">Logout</a>
             </p>
